@@ -1,2 +1,4 @@
 ---
 # defaults file for poudriere
+poudriere_ssl_enable: NO
+poudriere_ssl_dir: "/usr/local/etc/ssl"

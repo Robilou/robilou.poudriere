@@ -1,9 +1,28 @@
 ---
 # tasks file for poudriere
 - name: INSTALL | install packages 
-  pkgng: name=   state=  
+  pkgng: 
+   name={{ item }}
+   state=present
+
   with_items:
-  	- poudriere
+   - poudriere
 
   tags:
-  	- install
+   - install
+
+- name: CREATE DIR | create dir keys,certs
+  file:
+   state=directory
+   path={{ poudriere_ssl_dir }}/{{ item.name }}
+   owner=root
+   group=wheel
+   mode={{ item.mode }}
+
+  when:  poudriere_ssl_enable
+  with_items:
+   - { name: 'keys', mode: '0600' }
+   - { name: 'certs', mode: '0644' }
+
+  tags:
+   - config

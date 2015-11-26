@@ -1,0 +1,9 @@
+---
+# tasks file for poudriere
+- name: INSTALL | install packages 
+  pkgng: name=   state=  
+  with_items:
+  	- poudriere
+
+  tags:
+  	- install

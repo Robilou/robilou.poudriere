@@ -7,10 +7,14 @@
 
   with_items:
    - poudriere
+   - ccache
+   - dialog4ports
 
   tags:
    - install
 
+
+# --------------------------------------------------------
 - name: CREATE DIR | create dir keys,certs
   file:
    state=directory
@@ -26,3 +30,62 @@
 
   tags:
    - config
+
+# --------------------------------------------------------
+# ---- Toto bude potreba pak hodit do samotne role ?  ----
+# sudo openssl genrsa -out /usr/local/etc/ssl/keys/poudriere.key 4096
+# sudo openssl rsa -in /usr/local/etc/ssl/keys/poudriere.key -pubout -out /usr/local/etc/ssl/certs/poudriere.cert
+# --------------------------------------------------------
+
+# --------------------------------------------------------
+- name: CREATE DIR | create dir /var/cache/ccache
+  file:
+   state=directory
+   path={{ poudriere_CCACHE_DIR }}
+   owner=root
+   group=wheel
+   mode=0660
+
+  tags:
+   - config
+
+# ---------------------------------------------------------------------
+- name: CONFIG | Copy template poudriere.conf
+  template: >
+   # backup=yes 
+   src=poudriere.conf.j2 
+   dest=/usr/local/etc/poudriere.conf.test 
+   owner=root 
+   group=wheel 
+   mode=0640
+
+  tags:
+   - config
+   - template
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- name: Name for debug module.
+  
+  debug: var={{ zfs_set }}
+  
+  tags:
+   - config
+   - template

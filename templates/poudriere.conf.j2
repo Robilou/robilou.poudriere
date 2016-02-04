@@ -1,3 +1,50 @@
+# ZFS
+{% if zfs_set %}
+ZPOOL={{ zfs_pool }}
+ZROOTFS={{ poudriere_ZROOTFS }}
+{% else %}
+NO_ZFS=yes
+{% endif %}
+
+FREEBSD_HOST={{ poudriere_FREEBSD_HOST }}
+RESOLV_CONF={{ poudriere_RESOLV_CONF }}
+BASEFS={{ poudriere_BASEFS }}
+POUDRIERE_DATA=${BASEFS}/data
+USE_PORTLINT={{ poudriere_USE_PORTLINT }}
+
+
+# --------------------------------------------------------
+
+
+
+# --------------------------------------------------------
+MAX_MEMORY={{ poudriere_MAX_MEMORY }}
+DISTFILES_CACHE={{ poudriere_DISTFILES_CACHE }}
+SVN_HOST={{ poudriere_SVN_HOST }}
+CHECK_CHANGED_OPTIONS={{ poudriere_CHECK_CHANGED_OPTIONS }}
+CHECK_CHANGED_DEPS={{ poudriere_CHECK_CHANGED_DEPS }}
+{% if poudriere_ssl_enable %}
+PKG_REPO_SIGNING_KEY={{ poudriere_ssl_dir }}/keys/{{ poudriere_ssl_keyname }}.key
+{% endif %}
+CCACHE_DIR={{ poudriere_CCACHE_DIR }}
+PARALLEL_JOBS={{ poudriere_PARALLEL_JOBS }}
+PREPARE_PARALLEL_JOBS={{ poudriere_PREPARE_PARALLEL_JOBS }}
+SAVE_WRKDIR={{ poudriere_SAVE_WRKDIR }}
+WRKDIR_ARCHIVE_FORMAT= {{ poudriere_WRKDIR_ARCHIVE_FORMAT }}
+NOLINUX={{ poudriere_NOLINUX }}
+NO_FORCE_PACKAGE={{ poudriere_NO_FORCE_PACKAGE }}
+NO_PACKAGE_BUILDING={{ poudriere_NO_PACKAGE_BUILDING }}
+{% if proxy_set %}
+export HTTP_PROXY={{ proxy_http_proxy }}
+export FTP_PROXY={{ proxy_ftp_proxy }}
+{% endif %}
+NO_RESTRICTED={{ poudriere_NO_RESTRICTED }}
+URL_BASE={{ poudriere_URL_BASE }}
+
+
+
+
+
 
 # Poudriere can optionally use ZFS for its ports/jail storage. For
 # ZFS define ZPOOL, otherwise set NO_ZFS=yes
@@ -26,16 +73,16 @@
 #
 # Also note that every protocols supported by fetch(1) are supported here, even
 # file:///
-FREEBSD_HOST=_PROTO_://_CHANGE_THIS_
+# FREEBSD_HOST=_PROTO_://_CHANGE_THIS_
 
 # By default the jails have no /etc/resolv.conf, you will need to set
 # RESOLV_CONF to a file on your hosts system that will be copied has
 # /etc/resolv.conf for the jail, except if you don't need it (using an http
 # proxy for example)
-RESOLV_CONF=/etc/resolv.conf
+#RESOLV_CONF=/etc/resolv.conf
 
 # The directory where poudriere will store jails and ports
-BASEFS=/usr/local/poudriere
+#BASEFS=/usr/local/poudriere
 
 # The directory where the jail will store the packages and logs
 # by default a zfs filesystem will be created and set to
@@ -44,7 +91,9 @@ BASEFS=/usr/local/poudriere
 #POUDRIERE_DATA=${BASEFS}/data
 
 # Use portlint to check ports sanity
-USE_PORTLINT=no
+#USE_PORTLINT=no
+
+# --------------------------------------------------------
 
 # When building packages, a memory device can be used to speedup the build.
 # Only one of MFSSIZE or USE_TMPFS is supported. TMPFS is generally faster
@@ -68,13 +117,15 @@ USE_TMPFS=yes
 # (default: none)
 #TMPFS_LIMIT=8
 
+# --------------------------------------------------------
+
 # How much memory to limit jail processes to for *each builder*
 # in GiB (default: none)
 #MAX_MEMORY=8
 
 # If set the given directory will be used for the distfiles
 # This allows to share the distfiles between jails and ports tree
-DISTFILES_CACHE=/usr/ports/distfiles
+# DISTFILES_CACHE=/usr/ports/distfiles
 
 # If set the ports tree or source tree marked to use svn will use the defined
 # mirror (default: svn.FreeBSD.org)
@@ -148,6 +199,18 @@ DISTFILES_CACHE=/usr/ports/distfiles
 # Cleanout the restricted packages
 # NO_RESTRICTED=yes
 
+# URL where your POUDRIERE_DATA/logs are hosted
+# This will be used for giving URL hints to the HTML output when
+# scheduling and starting builds
+#URL_BASE=http://yourdomain.com/poudriere/
+
+
+
+# ----------------------------------------------
+
+
+
+
 # By default MAKE_JOBS is disabled to allow only one process per cpu
 # Use the following to allow it anyway
 # ALLOW_MAKE_JOBS=yes
@@ -161,10 +224,6 @@ DISTFILES_CACHE=/usr/ports/distfiles
 # Default: no
 #TIMESTAMP_LOGS=no
 
-# URL where your POUDRIERE_DATA/logs are hosted
-# This will be used for giving URL hints to the HTML output when
-# scheduling and starting builds
-#URL_BASE=http://yourdomain.com/poudriere/
 
 
 # This defines the max time (in seconds) that a command may run for a build

@@ -1,4 +1,66 @@
 ---
 # defaults file for poudriere
+#
+# SYSTEM DEFAULTS
 poudriere_ssl_enable: NO
 poudriere_ssl_dir: "/usr/local/etc/ssl"
+poudriere_ssl_keyname: "poudriere"
+
+zfs_set: NO
+zfs_pool: "zroot"
+
+proxy_set: NO
+proxy_http_proxy: localhost
+proxy_ftp_proxy: localhost
+
+# Defaults poudriere.conf 
+
+poudriere_ZROOTFS: "/poudriere"
+poudriere_FREEBSD_HOST: "http://ftp.freebsd.org"
+poudriere_RESOLV_CONF: "/etc/resolv.conf"
+poudriere_BASEFS: "/usr/local/poudriere"
+poudriere_USE_PORTLINT: "no"
+
+# --------------------------------------------------------
+poudriere_MFSSIZE_enable: NO
+poudriere_MFSSIZE: "4G"
+poudriere_USE_TMPFS_enable: YES
+poudriere_USE_TMPFS: "all"
+poudriere_TMPFS_LIMIT: "8"
+# --------------------------------------------------------
+
+poudriere_MAX_MEMORY: "8"
+poudriere_DISTFILES_CACHE: "/usr/ports/distfiles"
+poudriere_SVN_HOST: "svn.FreeBSD.org"
+poudriere_CHECK_CHANGED_OPTIONS: "verbose"
+poudriere_CHECK_CHANGED_DEPS: "yes"
+poudriere_CCACHE_DIR: "/var/cache/ccache"
+poudriere_PARALLEL_JOBS: "1"
+poudriere_PREPARE_PARALLEL_JOBS: "1"
+poudriere_SAVE_WRKDIR: "yes"
+poudriere_WRKDIR_ARCHIVE_FORMAT: "tbz"
+poudriere_NOLINUX: "yes"
+poudriere_NO_FORCE_PACKAGE: "yes"
+poudriere_NO_PACKAGE_BUILDING: "yes"
+poudriere_NO_RESTRICTED: "yes"
+poudriere_URL_BASE: "http://localhost/poudriere/"
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_
+# poudriere_

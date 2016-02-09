@@ -52,9 +52,9 @@
 # ---------------------------------------------------------------------
 - name: CONFIG | Copy template poudriere.conf
   template: >
-   # backup=yes 
+   backup=yes 
    src=poudriere.conf.j2 
-   dest=/usr/local/etc/poudriere.conf.test 
+   dest=/usr/local/etc/poudriere.conf
    owner=root 
    group=wheel 
    mode=0640
@@ -64,28 +64,116 @@
    - template
 
 
+# ---------------------------------------------------------------------
+- name: PREPARE | prepare jail
+  shell: "poudriere jail -c -j {{ item.poudriere_name }} -v {{ item.poudriere_version }} -a {{ item.poudriere_arch }}"
+  ignore_errors: yes
 
 
+# ---------------------------------------------------------------------
+# TOTO jeste upravit
+# ---------------------------------------------------------------------     
+#   with_file:
+#   - poudriere_jails.yml
+  with_items: 
+   - { poudriere_label: "FreeBSD 10.2-RELEASE 64bit",
+       poudriere_name: "freebsd:10:x86:64",
+       poudriere_version: "10.2-RELEASE",
+       poudriere_arch: "amd64"
+      }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-- name: Name for debug module.
-  
-  debug: var={{ zfs_set }}
-  
   tags:
-   - config
-   - template
+   - prepare
+# ---------------------------------------------------------------------
+# TOTO jeste upravit
+# ---------------------------------------------------------------------     
+
+
+
+
+
+
+- name: PREPARE | prepare ports 
+  shell: "poudriere ports -c"
+  ignore_errors: yes
+
+  tags:
+   - prepare
+
+- name: PREPARE | Update ports 
+  shell: "poudriere ports -u"
+  
+
+  tags:
+   - prepare
+   - update
+
+- name: PREPARE | Update jail
+  shell: "poudriere jail -u -j {{ item.poudriere_name }}"
+# ---------------------------------------------------------------------
+# TOTO jeste upravit
+# ---------------------------------------------------------------------       
+  with_items: 
+   - { poudriere_label: "FreeBSD 10.2-RELEASE 64bit",
+       poudriere_name: "freebsd:10:x86:64",
+       poudriere_version: "10.2-RELEASE",
+       poudriere_arch: "amd64"
+      }
+# ---------------------------------------------------------------------
+# TOTO jeste upravit
+# ---------------------------------------------------------------------     
+
+  tags:
+   - prepare
+   - update
+
+
+
+# ---------------------------------------------------------------------
+# - name: CONFIG | Copy template make.conf, pkglist
+#   template: >
+#    # backup=yes 
+#    src=poudriere.conf.j2 
+#    dest=/usr/local/etc/poudriere.conf
+#    owner=root 
+#    group=wheel 
+#    mode=0640
+# 
+# # ---------------------------------------------------------------------
+# # TOTO jeste upravit
+# # ---------------------------------------------------------------------       
+#   with_items: 
+#    - { poudriere_label: "FreeBSD 10.2-RELEASE 64bit",
+#        poudriere_name: "freebsd:10:x86:64",
+#        poudriere_version: "10.2-RELEASE",
+#        poudriere_arch: "amd64"
+#       }
+# # ---------------------------------------------------------------------
+# # TOTO jeste upravit
+# # ---------------------------------------------------------------------     
+# 
+#   tags:
+#    - config
+#    - template
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# - name: Name for debug module.
+#   
+#   debug: var={{ zfs_set }}
+#   
+#   tags:
+#    - config
+#    - template

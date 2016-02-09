@@ -1,6 +1,0 @@
----
-jail:
- - label: "FreeBSD 10.2-RELEASE 64bit"
-    name: "freebsd:10:x86:64"
-    version: "10.2-RELEASE"
-    arch: "amd64"

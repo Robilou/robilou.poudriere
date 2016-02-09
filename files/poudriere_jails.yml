@@ -1,0 +1,7 @@
+---
+- { poudriere_label: "FreeBSD 10.2-RELEASE 64bit",
+	poudriere_name: "freebsd:10:x86:64",
+	poudriere_version: "10.2-RELEASE",
+	poudriere_arch: "amd64"
+  }
+
